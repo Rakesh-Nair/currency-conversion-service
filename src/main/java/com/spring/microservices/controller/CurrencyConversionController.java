@@ -2,7 +2,6 @@ package com.spring.microservices.controller;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -11,34 +10,33 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
-import com.spring.microservices.bean.CurrencyConversionBean;
-import com.spring.microservices.proxy.CurrencyExchangeServiceProxy;
+import com.spring.microservices.bean.CurrencyConversion;
+import com.spring.microservices.proxy.CurrencyExchangeProxy;
 
 @RestController
 public class CurrencyConversionController {
 
 	@Autowired
-	private CurrencyExchangeServiceProxy proxy;
+	private CurrencyExchangeProxy proxy;
 
 	@GetMapping("/currency-converter/from/{from}/to/{to}/quantity/{quantity}")
-	public CurrencyConversionBean convertCurrency(@PathVariable String from, @PathVariable String to,
+	public CurrencyConversion convertCurrency(@PathVariable String from, @PathVariable String to,
 			@PathVariable BigDecimal quantity) {
-		Map<String, String> uriVariables = new HashMap<>();
+		HashMap<String, String> uriVariables = new HashMap<>();
 		uriVariables.put("from", from);
 		uriVariables.put("to", to);
-		ResponseEntity<CurrencyConversionBean> responseEntity = new RestTemplate().getForEntity(
-				"http://localhost:8000/currency-exchange/from/{from}/to/{to}", CurrencyConversionBean.class,
-				uriVariables);
-		CurrencyConversionBean response = responseEntity.getBody();
-		return new CurrencyConversionBean(response.getId(), from, to, response.getConversionMultiple(), quantity,
-				quantity.multiply(response.getConversionMultiple()), response.getPort());
+		ResponseEntity<CurrencyConversion> responseEntity = new RestTemplate().getForEntity(
+				"http://localhost:8000/currency-exchange/from/{from}/to/{to}", CurrencyConversion.class, uriVariables);
+		CurrencyConversion response = responseEntity.getBody();
+		return new CurrencyConversion(response.getId(), from, to, response.getConversionMultiple(), quantity,
+				quantity.multiply(response.getConversionMultiple()), response.getEnvironment() + " rest template");
 	}
 
 	@GetMapping("/currency-converter-feign/from/{from}/to/{to}/quantity/{quantity}")
-	public CurrencyConversionBean convertCurrencyFeign(@PathVariable String from, @PathVariable String to,
+	public CurrencyConversion convertCurrencyFeign(@PathVariable String from, @PathVariable String to,
 			@PathVariable BigDecimal quantity) {
-		CurrencyConversionBean response = proxy.retrieveExchangeValue(from, to);
-		return new CurrencyConversionBean(response.getId(), from, to, response.getConversionMultiple(), quantity,
-				quantity.multiply(response.getConversionMultiple()), response.getPort());
+		CurrencyConversion response = proxy.retrieveExchangeValue(from, to);
+		return new CurrencyConversion(response.getId(), from, to, response.getConversionMultiple(), quantity,
+				quantity.multiply(response.getConversionMultiple()), response.getEnvironment() + " feign");
 	}
 }

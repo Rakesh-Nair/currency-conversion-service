@@ -2,21 +2,21 @@ package com.spring.microservices.bean;
 
 import java.math.BigDecimal;
 
-public class CurrencyConversionBean {
+public class CurrencyConversion {
 	private Long id;
 	private String from;
 	private String to;
 	private BigDecimal conversionMultiple;
 	private BigDecimal quantity;
 	private BigDecimal totalCalculatedAmount;
-	private int port;
+	private String environment;
 
-	public CurrencyConversionBean() {
+	public CurrencyConversion() {
 		super();
 	}
 
-	public CurrencyConversionBean(Long id, String from, String to, BigDecimal conversionMultiple, BigDecimal quantity,
-			BigDecimal totalCalculatedAmount, int port) {
+	public CurrencyConversion(Long id, String from, String to, BigDecimal conversionMultiple, BigDecimal quantity,
+			BigDecimal totalCalculatedAmount, String environment) {
 		super();
 		this.id = id;
 		this.from = from;
@@ -24,7 +24,7 @@ public class CurrencyConversionBean {
 		this.conversionMultiple = conversionMultiple;
 		this.quantity = quantity;
 		this.totalCalculatedAmount = totalCalculatedAmount;
-		this.port = port;
+		this.environment = environment;
 	}
 
 	/**
@@ -112,17 +112,17 @@ public class CurrencyConversionBean {
 	}
 
 	/**
-	 * @return the port
+	 * @return the environment
 	 */
-	public int getPort() {
-		return port;
+	public String getEnvironment() {
+		return environment;
 	}
 
 	/**
-	 * @param port the port to set
+	 * @param environment the environment to set
 	 */
-	public void setPort(int port) {
-		this.port = port;
+	public void setEnvironment(String environment) {
+		this.environment = environment;
 	}
 
 }
