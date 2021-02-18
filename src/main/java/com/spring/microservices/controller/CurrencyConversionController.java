@@ -19,7 +19,7 @@ public class CurrencyConversionController {
 	@Autowired
 	private CurrencyExchangeProxy proxy;
 
-	@GetMapping("/currency-converter/from/{from}/to/{to}/quantity/{quantity}")
+	@GetMapping("/currency-conversion/from/{from}/to/{to}/quantity/{quantity}")
 	public CurrencyConversion convertCurrency(@PathVariable String from, @PathVariable String to,
 			@PathVariable BigDecimal quantity) {
 		HashMap<String, String> uriVariables = new HashMap<>();
