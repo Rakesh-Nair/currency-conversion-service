@@ -32,7 +32,7 @@ public class CurrencyConversionController {
 				quantity.multiply(response.getConversionMultiple()), response.getEnvironment() + " rest template");
 	}
 
-	@GetMapping("/currency-converter-feign/from/{from}/to/{to}/quantity/{quantity}")
+	@GetMapping("/currency-conversion-feign/from/{from}/to/{to}/quantity/{quantity}")
 	public CurrencyConversion convertCurrencyFeign(@PathVariable String from, @PathVariable String to,
 			@PathVariable BigDecimal quantity) {
 		CurrencyConversion response = proxy.retrieveExchangeValue(from, to);
